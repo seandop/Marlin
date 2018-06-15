@@ -75,7 +75,7 @@
  * THERMAL_PROTECTION_HYSTERESIS and/or THERMAL_PROTECTION_PERIOD
  */
 #if ENABLED(THERMAL_PROTECTION_HOTENDS)
-  #define THERMAL_PROTECTION_PERIOD 40        // Seconds
+  #define THERMAL_PROTECTION_PERIOD 120         //40 Seconds
   #define THERMAL_PROTECTION_HYSTERESIS 4     // Degrees Celsius
 
   /**
@@ -90,22 +90,22 @@
    * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
    * below 2.
    */
-  #define WATCH_TEMP_PERIOD 20                // Seconds
-  #define WATCH_TEMP_INCREASE 2               // Degrees Celsius
+  #define WATCH_TEMP_PERIOD 120                //20 Seconds
+  #define WATCH_TEMP_INCREASE 4               // 2 Degrees Celsius
 #endif
 
 /**
  * Thermal Protection parameters for the bed are just as above for hotends.
  */
 #if ENABLED(THERMAL_PROTECTION_BED)
-  #define THERMAL_PROTECTION_BED_PERIOD 20    // Seconds
-  #define THERMAL_PROTECTION_BED_HYSTERESIS 2 // Degrees Celsius
+  #define THERMAL_PROTECTION_BED_PERIOD 240    //20 Seconds
+  #define THERMAL_PROTECTION_BED_HYSTERESIS 4 //2 Degrees Celsius
 
   /**
    * As described above, except for the bed (M140/M190/M303).
    */
-  #define WATCH_BED_TEMP_PERIOD 60                // Seconds
-  #define WATCH_BED_TEMP_INCREASE 2               // Degrees Celsius
+  #define WATCH_BED_TEMP_PERIOD 240                //60 Seconds
+  #define WATCH_BED_TEMP_INCREASE 4               //2 Degrees Celsius
 #endif
 
 #if ENABLED(PIDTEMP)
@@ -377,8 +377,8 @@
 // @section homing
 
 // Homing hits each endstop, retracts by these distances, then does a slower bump.
-#define X_HOME_BUMP_MM 5
-#define Y_HOME_BUMP_MM 5
+#define X_HOME_BUMP_MM 0//5
+#define Y_HOME_BUMP_MM 0//5
 #define Z_HOME_BUMP_MM 2
 #define HOMING_BUMP_DIVISOR { 2, 2, 4 }  // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 //#define QUICK_HOME                     // If homing includes X and Y, do a diagonal move initially
@@ -736,13 +736,13 @@
  *
  * Warning: Does not respect endstops!
  */
-//#define BABYSTEPPING
+#define BABYSTEPPING
 #if ENABLED(BABYSTEPPING)
   //#define BABYSTEP_XY              // Also enable X/Y Babystepping. Not supported on DELTA!
   #define BABYSTEP_INVERT_Z false    // Change if Z babysteps should go the other way
   #define BABYSTEP_MULTIPLICATOR 1   // Babysteps are very small. Increase for faster motion.
   //#define BABYSTEP_ZPROBE_OFFSET   // Enable to combine M851 and Babystepping
-  //#define DOUBLECLICK_FOR_Z_BABYSTEPPING // Double-click on the Status Screen for Z Babystepping.
+  #define DOUBLECLICK_FOR_Z_BABYSTEPPING // Double-click on the Status Screen for Z Babystepping.
   #define DOUBLECLICK_MAX_INTERVAL 1250 // Maximum interval between clicks, in milliseconds.
                                         // Note: Extra time may be added to mitigate controller latency.
   //#define BABYSTEP_ZPROBE_GFX_OVERLAY // Enable graphical overlay on Z-offset editor
@@ -777,9 +777,9 @@
 #if ENABLED(MESH_BED_LEVELING) || ENABLED(AUTO_BED_LEVELING_UBL)
   // Override the mesh area if the automatic (max) area is too large
   //#define MESH_MIN_X MESH_INSET
-  //#define MESH_MIN_Y MESH_INSET
+  #define MESH_MIN_Y 10 + 10 //MESH_INSET
   //#define MESH_MAX_X X_BED_SIZE - (MESH_INSET)
-  //#define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET)
+  #define MESH_MAX_Y Y_BED_SIZE - 10 //Y_BED_SIZE - (MESH_INSET)
 #endif
 
 // @section extras
@@ -816,7 +816,7 @@
  *   3 : Minimum for TB6600 stepper drivers
  *  30 : Minimum for TB6560 stepper drivers
  */
-#define MINIMUM_STEPPER_PULSE 2
+#define MINIMUM_STEPPER_PULSE 0
 
 /**
  * Maximum stepping rate (in Hz) the stepper driver allows
@@ -828,7 +828,7 @@
  *  130000 : Maximum for LV8729 stepper driver
  *   15000 : Maximum for TB6560 stepper driver
  */
-#define MAXIMUM_STEPPER_RATE 250000
+#define MAXIMUM_STEPPER_RATE 400000
 
 // @section temperature
 
@@ -1073,15 +1073,15 @@
  * in your `pins_MYBOARD.h` file. (e.g., RAMPS 1.4 uses AUX3 pins `X_CS_PIN 53`, `Y_CS_PIN 49`, etc.).
  * You may also use software SPI if you wish to use general purpose IO pins.
  */
-//#define HAVE_TMC2130
+#define HAVE_TMC2130
 #if ENABLED(HAVE_TMC2130)  // Choose your axes here. This is mandatory!
-  //#define X_IS_TMC2130
+  #define X_IS_TMC2130
   //#define X2_IS_TMC2130
-  //#define Y_IS_TMC2130
+  #define Y_IS_TMC2130
   //#define Y2_IS_TMC2130
-  //#define Z_IS_TMC2130
+  #define Z_IS_TMC2130
   //#define Z2_IS_TMC2130
-  //#define E0_IS_TMC2130
+  #define E0_IS_TMC2130
   //#define E1_IS_TMC2130
   //#define E2_IS_TMC2130
   //#define E3_IS_TMC2130
@@ -1179,7 +1179,7 @@
    * M912 - Clear stepper driver overtemperature pre-warn condition flag.
    * M122 S0/1 - Report driver parameters (Requires TMC_DEBUG)
    */
-  //#define MONITOR_DRIVER_STATUS
+  #define MONITOR_DRIVER_STATUS
 
   #if ENABLED(MONITOR_DRIVER_STATUS)
     #define CURRENT_STEP_DOWN     50  // [mA]
@@ -1224,14 +1224,14 @@
   #if ENABLED(SENSORLESS_HOMING)
     #define X_HOMING_SENSITIVITY  8
     #define Y_HOMING_SENSITIVITY  8
-    #define Z_HOMING_SENSITIVITY  8
+    //#define Z_HOMING_SENSITIVITY  8
   #endif
 
   /**
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continous reporting.
    */
-  //#define TMC_DEBUG
+  #define TMC_DEBUG
 
   /**
    * M915 Z Axis Calibration
